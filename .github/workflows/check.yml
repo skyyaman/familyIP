@@ -32,19 +32,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Test Cloudflare Worker
-        run: |
-          echo "===== DNS ====="
-          getent hosts check.helei.kdns.fr || true
-
-          echo "===== CURL ====="
-          curl -v --connect-timeout 10 --max-time 30 \
-            "https://check.helei.kdns.fr/check?sstp=vpn:vpn@" \
-            -o /tmp/worker_response.txt \
-            -w "\nHTTP_CODE=%{http_code}\n" || true
-
-          echo "===== RESPONSE ====="
-          cat /tmp/worker_response.txt || true
 
       - name: Get VPN Gate nodes + check via Cloudflare Worker + build page
         run: python vpngate.py
